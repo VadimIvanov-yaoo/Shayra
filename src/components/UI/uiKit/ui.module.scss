@@ -1,0 +1,79 @@
+
+
+
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+
+.text {
+  color: #333;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.justifyCenter {
+  justify-content: center;
+}
+
+.gapSmall {
+  gap: 10px;
+}
+
+.gapMedium {
+  gap: 15px;
+}
+
+.inputWrapper {
+  position: relative;
+  margin: 1rem 0;
+
+}
+
+input {
+  width: 100%;
+  max-width: 374px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input:focus {
+  border-color: #1c7ed6;
+}
+
+.label {
+  position: absolute;
+  top: 12px;
+  left: 8px;
+  background: white;
+  padding: 0 4px;
+  color: #999;
+  font-size: 1rem;
+  transition: all 0.2s ease-out;
+  pointer-events: none;
+}
+
+.filled + .label {
+  top: -8px;
+  font-size: 0.8rem;
+  color: #1c7ed6;
+}
+

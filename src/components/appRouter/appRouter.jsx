@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { authRouts, publicRouts } from '../routes.js'
 
@@ -6,20 +6,21 @@ const AppRouter = () => {
   const isAuth = false
 
   return (
-    <Routes>
-      {isAuth &&
-        authRouts.map(({ path, Component }) => (
-          <Route key={path} path={path} element={<Component />} />
-        ))}
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <Routes>
+        {isAuth &&
+          authRouts.map(({ path, Component }) => (
+            <Route key={path} path={path} element={<Component />} />
+          ))}
 
-      {!isAuth &&
-        publicRouts.map(({ path, Component }) => (
-          <Route key={path} path={path} element={<Component />} />
-        ))}
-      <Route path="*" element={<div>404 — Страница не найдена</div>} />
-    </Routes>
+        {!isAuth &&
+          publicRouts.map(({ path, Component }) => (
+            <Route key={path} path={path} element={<Component />} />
+          ))}
+        <Route path="*" element={<div>404 — Страница не найдена</div>} />
+      </Routes>
+    </Suspense>
   )
-  y
 }
 
 export default AppRouter
