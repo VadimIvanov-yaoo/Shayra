@@ -11,15 +11,21 @@
     "start": "nodemon --exec node server/index.js"
   },
   "dependencies": {
+    "@mantine/core": "^8.1.2",
+    "@mantine/hooks": "^8.1.2",
+    "@tabler/icons-react": "^3.34.0",
+    "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-intersection-observer": "^9.16.0",
     "react-router": "^7.6.3",
     "react-router-dom": "^7.6.3",
     "sequelize": "^6.37.7"
@@ -34,6 +40,9 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
     "nodemon": "^3.1.10",
+    "postcss": "^8.5.6",
+    "postcss-preset-mantine": "^1.18.0",
+    "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.6.2",
     "vite": "^7.0.0"
   },
