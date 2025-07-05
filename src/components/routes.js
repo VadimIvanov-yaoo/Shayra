@@ -4,7 +4,7 @@ import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts.js'
 export const authRouts = [
   {
     path: MAIN_ROUTE,
-    Component: lazy(() => import('../pages/MainPage/MainPage.jsx')),
+    Component: lazy(() => import('../pages/MainPage/ChatLayout.jsx')),
   },
 ]
 
@@ -21,6 +21,6 @@ export const publicRouts = [
 
   {
     path: MAIN_ROUTE,
-    Component: lazy(() => import('../pages/MainPage/MainPage.jsx')),
+    Component: lazy(() => import('../pages/MainPage/ChatLayout.jsx')),
   },
 ]

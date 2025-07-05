@@ -37,12 +37,14 @@ export default function LoginPage() {
           <Input
             id="email"
             label="Email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
           />
           <Input
             id="password"
             label="Password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
