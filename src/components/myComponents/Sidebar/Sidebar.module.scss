@@ -1,0 +1,36 @@
+.sidebar {
+  height: 100vh;
+  width: 100%;
+  max-width: 350px;
+  background: white;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .sidebar {
+    width: 350px;
+  }
+}
+
+.sidebarBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.sidebarBtn:hover {
+  background: rgba(211, 211, 211,0.2);
+}
+
+
+

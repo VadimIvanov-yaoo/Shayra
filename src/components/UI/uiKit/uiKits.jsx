@@ -8,15 +8,23 @@ export const Flex = ({
   column,
   alignCenter,
   justifyCenter,
+  justifyBetween,
+  justifyAround,
+  alignEnd,
   gap,
+  style,
   ...props
 }) => {
   return (
     <div
+      style={style}
       className={clsx(
         column ? styles.flexColumn : styles.flex,
         alignCenter && styles.alignCenter,
+        alignEnd && styles.alignEnd,
         justifyCenter && styles.justifyCenter,
+        justifyBetween && styles.justifyBetween,
+        justifyAround && styles.justifyAround,
         gap === 'small' && styles.gapSmall,
         gap === 'medium' && styles.gapMedium,
         className
@@ -36,12 +44,21 @@ export const Container = ({ children, className, ...props }) => {
   )
 }
 
-const Input = ({ label, value, onChange, type = 'text', id }) => {
+const Input = ({
+  label,
+  style,
+  placeholder,
+  value,
+  onChange,
+  type = 'text',
+  id,
+}) => {
   const [isFocused, setIsFocused] = useState(false)
 
   return (
     <div className={styles.inputWrapper}>
       <input
+        style={style}
         id={id}
         type={type}
         value={value}
@@ -49,7 +66,7 @@ const Input = ({ label, value, onChange, type = 'text', id }) => {
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         className={clsx(styles.input, (isFocused || value) && styles.filled)}
-        placeholder=" "
+        placeholder={placeholder}
       />
       <label htmlFor={id} className={styles.label}>
         {label}
@@ -65,5 +82,17 @@ export const Text = ({ style, children, as = 'span', className, ...props }) => {
     <Tag style={style} className={clsx(styles.text, className)} {...props}>
       {children}
     </Tag>
+  )
+}
+
+export const Section = ({ url, children, ...props }) => {
+  return (
+    <section
+      style={{ backgroundImage: `url(${url})` }}
+      className={clsx(styles.section)}
+    >
+      {' '}
+      {children}
+    </section>
   )
 }

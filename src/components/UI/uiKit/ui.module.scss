@@ -1,25 +1,18 @@
-
-
-
 .flex {
   display: flex;
-  flex-direction: row;
 }
 
 .flexColumn {
   display: flex;
   flex-direction: column;
 }
-
 .container {
   margin-left: auto;
   margin-right: auto;
-  max-width: 1200px;
-  padding-left: 16px;
-  padding-right: 16px;
+  //max-width: 1200px;
+  //padding-left: 16px;
+  //padding-right: 16px;
 }
-
-
 .text {
   color: #333;
 }
@@ -28,9 +21,23 @@
   align-items: center;
 }
 
+.alignEnd{
+  align-items: end;
+}
+
+
 .justifyCenter {
   justify-content: center;
 }
+
+.justifyBetween {
+  justify-content: space-between;
+}
+
+.justifyAround {
+  justify-content: space-around;
+}
+
 
 .gapSmall {
   gap: 10px;
@@ -45,14 +52,15 @@
   margin: 1rem 0;
 
 }
-
-input {
+.input {
   width: 100%;
-  max-width: 374px;
-  padding: 10px 12px;
+  //max-width: 374px;
+  max-width: calc(100% - 38px);
+  padding: 11px 18px;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 0.75rem;
+
 }
 
 .input:focus {
@@ -76,4 +84,11 @@ input {
   font-size: 0.8rem;
   color: #1c7ed6;
 }
+
+.section {
+  height: 100vh;
+  background-size: initial ;
+}
+
+
 

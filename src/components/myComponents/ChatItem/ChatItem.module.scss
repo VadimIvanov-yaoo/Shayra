@@ -1,0 +1,19 @@
+.avatar{
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+}
+
+.chatItem{
+  //background: red;
+  padding: 10px;
+  margin: 1px 10px;
+  cursor: pointer;
+}
+
+.chatItem:hover{
+  background: rgba(211, 211, 211,0.2);
+}
+
+
