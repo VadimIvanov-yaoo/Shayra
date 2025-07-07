@@ -7,7 +7,10 @@ const ChatItem = () => {
   return (
     <div className={styles.chatItem}>
       <Flex alignCenter style={{ gap: '15px' }}>
-        <img className={styles.avatar} src={avatar} alt="" />
+        <div className={styles.avatarWrapper}>
+          <img className={styles.avatar} src={avatar} alt="" />
+          <div className={styles.status}></div>
+        </div>
         <Flex style={{ gap: '5px' }} column>
           <Text as="h3">Иван Иванов</Text>
           <Text as="span">Привет, как дела</Text>

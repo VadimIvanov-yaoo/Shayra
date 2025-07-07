@@ -5,6 +5,22 @@
   object-fit: cover;
 }
 
+.avatarWrapper {
+  position: relative;
+}
+
+.status{
+  content: '';
+  position: absolute;
+  background: #64c664;
+  border-radius: 50%;
+  width: 12px;
+  bottom: 12%;
+  right: 8%;
+  height: 12px;
+}
+
+
 .chatItem{
   //background: red;
   padding: 10px;
