@@ -1,0 +1,33 @@
+.message {
+  width: fit-content;
+  height: fit-content;
+  max-width: 400px;
+  padding-left: 10px;
+  white-space: break-spaces;
+  overflow-wrap: break-word;
+
+
+  margin-bottom: 10px;
+  background: white;
+  border-radius: 12px;
+}
+
+.inputMessage{
+  @extend .message;
+  //border-top-right-radius: 80px;
+}
+
+.outputMessage{
+  @extend .message;
+  //border-top-left-radius: 40px;
+}
+
+.time{
+  font-size: 12px;
+}
+
+.status{
+  object-fit: cover;
+  height: 14px;
+  width: 14px;
+}

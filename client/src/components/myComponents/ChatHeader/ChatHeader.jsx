@@ -1,28 +1,28 @@
 import React from 'react'
-import { Flex, Text } from '../../UI/uiKit/uiKits.jsx'
 import avatar from '../../../assets/images/avatar.webp'
-import styles from './ChatsHeader.module.scss'
+import styles from './ChatHeader.module.scss'
 
-const ChatsHeader = () => {
-  let i = true
+const ChatHeader = () => {
+  const isOnline = true
+
   return (
     <div className={styles.chatHeader}>
-      <Flex alignCenter style={{ gap: '15px' }}>
-        <img className={styles.chatAvatar} src={avatar} alt="" />
-        <Flex style={{ gap: '3px' }} column>
-          <Text style={{ fontSize: '18px' }} as="h3">
+      <div className="d-flex align-items-center" style={{ gap: '15px' }}>
+        <img className={styles.chatAvatar} src={avatar} alt="avatar" />
+        <div className="d-flex flex-column" style={{ gap: '3px' }}>
+          <h3 className="mb-0" style={{ fontSize: '18px' }}>
             Иван Петрович
-          </Text>
-          <Text
-            className={i ? styles.greenClass : styles.redClass}
+          </h3>
+          <p
+            className={`mb-0 ${isOnline ? styles.greenClass : styles.redClass}`}
             style={{ fontSize: '14px' }}
           >
-            online
-          </Text>
-        </Flex>
-      </Flex>
+            {isOnline ? 'online' : 'offline'}
+          </p>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default ChatsHeader
+export default ChatHeader
