@@ -1,0 +1,48 @@
+.footer {
+  overflow-x: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 35.3%;
+  width: 100%;
+  background: none;
+  padding: 10px 0;
+}
+
+.inputWrapper {
+  overflow-x: hidden;
+
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 81%;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    padding: 0 10px;
+    max-width: 100%;
+  }
+}
+
+.input {
+  flex: 1;
+  max-width: 845px;
+  padding: 18px 26px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #1c7ed6;
+}
+
+.sendBtn {
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  padding: 10px;
+  cursor: pointer;
+  //background: black;
+}

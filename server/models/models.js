@@ -54,6 +54,29 @@ const ChatMember = sequelize.define('ChatMember', {
   },
 })
 
+const Message = sequelize.define('message', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  text: { type: DataTypes.TEXT, allowNull: false },
+  timestamp: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  senderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id',
+    },
+  },
+
+  chatId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Chat,
+      key: 'id',
+    },
+  },
+})
+
 const ChatAdmin = sequelize.define('ChatAdmin', {
   chatId: {
     type: DataTypes.INTEGER,
@@ -95,12 +118,18 @@ Chat.belongsToMany(User, {
   foreignKey: 'chatId',
   otherKey: 'userId',
 })
+User.hasMany(Message, { foreignKey: 'senderId', onDelete: 'CASCADE' })
+Message.belongsTo(User, { foreignKey: 'senderId' })
+
+Chat.hasMany(Message, { foreignKey: 'chatId', onDelete: 'CASCADE' })
+Message.belongsTo(Chat, { foreignKey: 'chatId' })
 
 const models = {
   User,
   Chat,
   ChatMember,
   ChatAdmin,
+  Message,
 }
 
 export default models

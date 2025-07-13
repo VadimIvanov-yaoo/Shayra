@@ -1,26 +1,27 @@
-import { lazy } from 'react'
+import ChatLayout from '../pages/ChatLayout/ChatLayout.jsx'
+import LoginPage from '../pages/LoginPage/LoginPage.jsx'
+import RegisterPage from '../pages/RegisterPage/RegisterPage.jsx'
+
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts.js'
 
 export const authRouts = [
   {
     path: MAIN_ROUTE,
-    Component: lazy(() => import('../pages/MainPage/ChatLayout.jsx')),
+    Component: ChatLayout,
   },
 ]
 
 export const publicRouts = [
   {
     path: LOGIN_ROUTE,
-    Component: lazy(() => import('../pages/LoginPage/LoginPage.jsx')),
+    Component: LoginPage,
   },
-
   {
     path: REGISTRATION_ROUTE,
-    Component: lazy(() => import('../pages/RegisterPage/RegisterPage.jsx')),
+    Component: RegisterPage,
   },
-
   {
     path: MAIN_ROUTE,
-    Component: lazy(() => import('../pages/MainPage/ChatLayout.jsx')),
+    Component: ChatLayout,
   },
 ]

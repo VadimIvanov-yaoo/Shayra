@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Input, { Container, Flex } from '../../UI/uiKit/uiKits.jsx'
 import styles from './Sidebar.module.scss'
-import { IconMenu } from '@tabler/icons-react'
 import ChatItem from '../ChatItem/ChatItem.jsx'
+import UserBar from '../UserBar/UserBar'
 
 const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const openMenu = () => {
+    setIsOpen((prev) => !prev)
+  }
   return (
     <section className={styles.sidebar}>
       <Container>
         <Flex column style={{ width: '100%' }}>
           <Flex
-            style={{ width: '100%', gap: '20px', margin: '10px 15px' }}
+            style={{ width: '100%', gap: '20px', margin: '0px 15px' }}
             alignCenter
           >
-            <button className={styles.sidebarBtn}>
-              <IconMenu size={24} />
-            </button>
+            <UserBar />
             <Input style={{ width: '205px' }} placeholder="Search"></Input>
           </Flex>
           <ChatItem />
