@@ -4,24 +4,9 @@ import RegisterPage from '../pages/RegisterPage/RegisterPage.jsx'
 
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts.js'
 
-export const authRouts = [
-  {
-    path: MAIN_ROUTE,
-    Component: ChatLayout,
-  },
-]
+export const authRouts = [{ path: MAIN_ROUTE, Component: ChatLayout }]
 
 export const publicRouts = [
-  {
-    path: LOGIN_ROUTE,
-    Component: LoginPage,
-  },
-  {
-    path: REGISTRATION_ROUTE,
-    Component: RegisterPage,
-  },
-  {
-    path: MAIN_ROUTE,
-    Component: ChatLayout,
-  },
+  { path: LOGIN_ROUTE, Component: LoginPage },
+  { path: REGISTRATION_ROUTE, Component: RegisterPage },
 ]
