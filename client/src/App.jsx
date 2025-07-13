@@ -24,12 +24,13 @@ const App = observer(() => {
       })
 
       check()
-        .then((data) => {
-          user.setUser(data)
+        .then((userData) => {
+          user.setUser(userData)
           user.setIsAuth(true)
         })
         .catch(() => {
           user.setIsAuth(false)
+          user.setUser({})
         })
         .finally(() => setLoading(false))
     }, 1000)

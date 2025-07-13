@@ -45,9 +45,43 @@ class UserController {
     return res.json({ token })
   }
 
+  // async check(req, res, next) {
+  //   const token = generateJwt(req.user.id, req.user.email)
+  //   return res.json({ token })
+  // }
+
   async check(req, res, next) {
-    const token = generateJwt(req.user.id, req.user.email)
-    return res.json({ token })
+    try {
+      const user = await User.findByPk(req.user.id, {
+        attributes: ['id', 'email', 'userName', 'avatarUrl'],
+      })
+      if (!user) {
+        return next(ApiError.badRequest('Пользователь не найден'))
+      }
+      return res.json(user)
+    } catch (e) {
+      next(ApiError.internal('Ошибка проверки пользователя'))
+    }
+  }
+
+  async updateProfile(req, res, next) {
+    try {
+      const { userName, avatarUrl } = req.body
+      const userId = req.user.id
+
+      const user = await User.findByPk(userId)
+      if (!user) {
+        return next(ApiError.badRequest('Пользователь не найден'))
+      }
+
+      user.userName = userName
+      user.avatarUrl = avatarUrl
+      // user.userName = userName
+      await user.save()
+      return res.json(user)
+    } catch (e) {
+      next(ApiError.internal('Ошибка обновления профиля'))
+    }
   }
 }
 

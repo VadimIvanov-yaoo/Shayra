@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import './UserBar.css'
 import avatar from '../../../assets/images/avatar.webp'
 import menuIcon from '../../../assets/images/icons/menu.svg'
@@ -7,8 +7,12 @@ import ModalWindow from '../../UI/ModalWindow/ModalWindow'
 import { useProfileDropdown } from '../../../hooks/userBarHooks/useProfileDropdown'
 import { Button } from 'react-bootstrap'
 import AvatarUploader from '../../UI/AvatarUploader/AvatarUploader'
+import { updateProfile } from '../../../http/userApi'
+import { Context } from '../../../main'
+import { observer } from 'mobx-react'
+import { useNavigate } from 'react-router'
 
-const ProfileDropdown = () => {
+const ProfileDropdown = observer(() => {
   const {
     isOpen,
     toggleDropdown,
@@ -20,9 +24,19 @@ const ProfileDropdown = () => {
     name,
     setName,
   } = useProfileDropdown()
-
+  const navigator = useNavigate()
   const fileInputRef = useRef(null)
   const [avatarUrl, setAvatarUrl] = useState(null)
+  const { user } = useContext(Context)
+
+  function logout() {
+    localStorage.removeItem('token')
+    user.setUser({})
+    user.setIsAuth(false)
+    navigator('/login')
+  }
+
+  console.log(user.isAuth)
 
   const barItems = [
     {
@@ -35,19 +49,25 @@ const ProfileDropdown = () => {
     },
   ]
 
-  function rename() {
-    console.log(avatarUrl)
-    if (name.length >= 12) {
-      alert('Имя не должно превышать 8 символов')
-    } else {
-      handleClose()
-    }
-  }
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  const saveUsername = async () => {
+    if (name.length <= 10) {
+      try {
+        const updatedUser = await updateProfile(name)
+        user.setUser(updatedUser)
+        alert('Имя пользователя обновлено')
+        // handleClose()
+      } catch (e) {
+        alert(e.response?.data?.message || 'Ошибка обновления имени')
+      }
+    } else {
+      alert('Имя не должно превышать 8 символов')
+    }
+  }
 
   return (
     <div className="profile-wrapper" ref={dropdownRef}>
@@ -117,7 +137,7 @@ const ProfileDropdown = () => {
               <Button
                 variant="primary"
                 onClick={() => {
-                  rename()
+                  saveUsername()
                 }}
                 style={{ minWidth: '100px' }}
               >
@@ -128,10 +148,12 @@ const ProfileDropdown = () => {
           show={show}
           handleClose={handleClose}
         />
-        <button className="dropdown-item logout">Выйти</button>
+        <button onClick={logout} className="dropdown-item logout">
+          Выйти
+        </button>
       </div>
     </div>
   )
-}
+})
 
 export default ProfileDropdown
