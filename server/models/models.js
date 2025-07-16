@@ -23,7 +23,7 @@ const User = sequelize.define('user', {
 const Chat = sequelize.define('chat', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   type: {
-    type: DataTypes.ENUM('private', 'group', 'channel'),
+    type: DataTypes.ENUM('private', 'group', 'channel', 'dialog'),
     allowNull: false,
   },
   name: {

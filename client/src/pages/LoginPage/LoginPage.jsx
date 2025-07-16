@@ -29,7 +29,7 @@ const LoginPage = observer(() => {
       } else {
         data = await registration(email, password)
       }
-      user.setUser(user)
+      user.setUser(data)
       user.setIsAuth(true)
       navigate(MAIN_ROUTE)
     } catch (e) {
@@ -65,6 +65,7 @@ const LoginPage = observer(() => {
             type="email"
           />
           <Input
+            style={{ width: '100%' }}
             id="password"
             label="Password"
             value={password}

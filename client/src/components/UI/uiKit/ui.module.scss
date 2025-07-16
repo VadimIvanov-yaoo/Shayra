@@ -54,8 +54,7 @@
 }
 .input {
   width: 100%;
-  //max-width: 374px;
-  max-width: calc(100% - 38px);
+  //max-width: calc(100% - 38px);
   padding: 11px 18px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -85,10 +84,12 @@
   color: #1c7ed6;
 }
 
+
 .section {
   height: 100vh;
   background-size: initial ;
 }
+
 
 
 
