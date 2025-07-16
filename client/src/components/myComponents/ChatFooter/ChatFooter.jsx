@@ -5,12 +5,13 @@ import socket from '../../../Websoket/socket'
 
 const ChatFooter = () => {
   const [message, setMessage] = useState()
-  console.log(message)
+  // console.log(message)
 
   function click(e) {
     e.preventDefault()
     if (message) {
       socket.emit('message', message)
+      setMessage('')
     }
   }
 

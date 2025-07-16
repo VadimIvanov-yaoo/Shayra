@@ -7,7 +7,12 @@ import ModalWindow from '../../UI/ModalWindow/ModalWindow'
 import { useProfileDropdown } from '../../../hooks/userBarHooks/useProfileDropdown'
 import { Button } from 'react-bootstrap'
 import AvatarUploader from '../../UI/AvatarUploader/AvatarUploader'
-import { updateProfile } from '../../../http/userApi'
+import {
+  check,
+  checkOnline,
+  getChats,
+  updateProfile,
+} from '../../../http/userApi'
 import { Context } from '../../../main'
 import { observer } from 'mobx-react'
 import { useNavigate } from 'react-router'
@@ -36,7 +41,14 @@ const ProfileDropdown = observer(() => {
     navigator('/login')
   }
 
-  console.log(user.isAuth)
+  async function loadUserProfile() {
+    try {
+      const data = await check()
+      user.setUser(data)
+    } catch (e) {
+      console.error('Ошибка загрузки профиля', e)
+    }
+  }
 
   const barItems = [
     {
@@ -49,18 +61,33 @@ const ProfileDropdown = observer(() => {
     },
   ]
 
+  // async function changeOnline() {
+  //   const status = 'Online'
+  //   try {
+  //     const userStatus = await checkOnline({ status }) // ← обязательно объект
+  //     user.setUser(userStatus)
+  //     alert('Статус обновлён')
+  //   } catch (e) {
+  //     console.log('Ошибка при обновлении статуса:', e)
+  //     alert(e.response?.data?.message || 'Ошибка обновления статуса')
+  //   }
+  // }
+
   useEffect(() => {
+    if (!user.user.userName) {
+      loadUserProfile()
+    }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
   const saveUsername = async () => {
-    if (name.length <= 10) {
+    if (name.length <= 10 && name !== '') {
       try {
-        const updatedUser = await updateProfile(name)
+        const updatedUser = await updateProfile(name, avatarUrl)
         user.setUser(updatedUser)
         alert('Имя пользователя обновлено')
-        // handleClose()
+        handleClose()
       } catch (e) {
         alert(e.response?.data?.message || 'Ошибка обновления имени')
       }
@@ -79,11 +106,11 @@ const ProfileDropdown = observer(() => {
           <Flex style={{ gap: '10px' }} alignCenter>
             <img
               className="avatar"
-              src={avatarUrl ? avatarUrl : avatar}
+              src={user.user.avatarUrl || avatar}
               alt=""
             />
             <Text style={{ paddingTop: '2px', fontSize: '14px' }} as="span">
-              {name ? name : 'Username'}
+              {user.user.userName || 'Username'}
             </Text>
           </Flex>
         </div>
@@ -101,7 +128,14 @@ const ProfileDropdown = observer(() => {
             </Text>
           }
           body={
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                paddingLeft: '30px',
+              }}
+            >
               <AvatarUploader
                 fileInputRef={fileInputRef}
                 avatarUrl={avatarUrl}
@@ -116,6 +150,7 @@ const ProfileDropdown = observer(() => {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Введите ваше имя"
                 style={{
+                  maxWidth: '94%',
                   padding: '10px 12px',
                   fontSize: '14px',
                   borderRadius: '6px',

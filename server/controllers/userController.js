@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import models from '../models/models.js'
-const { User } = models
+const { User, Chat } = models
 import ApiError from '../error/ApiError.js'
 import jwt from 'jsonwebtoken'
 import { where } from 'sequelize'
@@ -81,6 +81,37 @@ class UserController {
       return res.json(user)
     } catch (e) {
       next(ApiError.internal('Ошибка обновления профиля'))
+    }
+  }
+
+  async getChats(req, res, next) {
+    try {
+      const userId = req.user.id
+
+      const userWithChats = await User.findByPk(userId, {
+        include: {
+          model: Chat,
+          through: { attributes: [] },
+        },
+      })
+
+      return res.json(userWithChats)
+    } catch (e) {
+      next(ApiError.internal('Чаты не найдены'))
+    }
+  }
+
+  async checkOnline(req, res, next) {
+    try {
+      const { status } = req.body
+      const userId = req.user.id
+      const user = await User.findByPk(userId)
+
+      user.status = status
+      await user.save()
+      return res.json(user)
+    } catch (e) {
+      next(ApiError.internal('Ошибка обновления статуса'))
     }
   }
 }

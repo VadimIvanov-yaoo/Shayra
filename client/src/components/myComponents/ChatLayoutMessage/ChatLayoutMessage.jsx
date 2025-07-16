@@ -11,9 +11,7 @@ const ChatLayoutMessage = () => {
       <Container>
         <div className={styles.chatsWrapper}>
           <div className={styles.red}></div>
-          <div className={styles.green}>
-            <ModalWindow />
-          </div>
+          <div className={styles.green}></div>
         </div>
       </Container>
     </div>
