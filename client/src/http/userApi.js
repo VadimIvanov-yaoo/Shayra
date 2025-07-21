@@ -44,3 +44,12 @@ export const searchUser = async (userName) => {
   })
   return data
 }
+
+export const createChat = async (userId1, userId2) => {
+  console.log('⚙️ Отправка чата:', userId1, userId2) // добавь это!
+  const { data } = await $authHost.post('api/chat/newChat', {
+    userId1,
+    userId2,
+  })
+  return data
+}

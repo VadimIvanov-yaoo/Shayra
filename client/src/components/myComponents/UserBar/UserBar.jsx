@@ -61,19 +61,19 @@ const ProfileDropdown = observer(() => {
     },
   ]
 
-  // async function changeOnline() {
-  //   const status = 'Online'
-  //   try {
-  //     const userStatus = await checkOnline({ status }) // ← обязательно объект
-  //     user.setUser(userStatus)
-  //     alert('Статус обновлён')
-  //   } catch (e) {
-  //     console.log('Ошибка при обновлении статуса:', e)
-  //     alert(e.response?.data?.message || 'Ошибка обновления статуса')
-  //   }
-  // }
+  async function changeOnline() {
+    const status = 'online'
+    try {
+      const userStatus = await checkOnline({ status })
+      user.setUser(userStatus)
+    } catch (e) {
+      console.log('Ошибка при обновлении статуса:', e)
+      alert(e.response?.data?.message || 'Ошибка обновления статуса')
+    }
+  }
 
   useEffect(() => {
+    changeOnline()
     if (!user.user.userName) {
       loadUserProfile()
     }
