@@ -5,10 +5,10 @@ import styles from './ChatView.module.scss'
 import Message from '../Message/Message'
 import ChatLayoutMessage from '../ChatLayoutMessage/ChatLayoutMessage'
 
-const ChatView = () => {
+const ChatView = ({ selectChat }) => {
   return (
     <div className={styles.chat}>
-      <ChatHeader />
+      <ChatHeader selectChat={selectChat} />
       <ChatLayoutMessage />
       <ChatFooter />
     </div>

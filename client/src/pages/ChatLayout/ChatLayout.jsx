@@ -7,6 +7,7 @@ import { Context } from '../../main'
 
 const ChatLayout = () => {
   const { chat } = useContext(Context)
+  const [selectChat, setSelectChat] = useState(null)
   const [isVisible, setIsVisible] = useState(false)
 
   const handleChatSelect = (chatId) => {
@@ -18,8 +19,11 @@ const ChatLayout = () => {
     <Section url={bg} className="section">
       <Container style={{ height: '100%' }}>
         <Flex style={{ height: '100%' }}>
-          <Sidebar onChatSelect={handleChatSelect} />
-          {isVisible && <ChatView />}
+          <Sidebar
+            setSelectChat={setSelectChat}
+            onChatSelect={handleChatSelect}
+          />
+          {isVisible && <ChatView selectChat={selectChat} />}
         </Flex>
       </Container>
     </Section>

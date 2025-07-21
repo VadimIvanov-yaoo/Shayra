@@ -6,5 +6,6 @@ import chatController from '../controllers/chatController.js'
 const router = Router()
 
 router.get('/search', authMiddleware, chatController.searchUser)
+router.post('/newChat', authMiddleware, chatController.createChat)
 
 export default router

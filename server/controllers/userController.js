@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt'
 import models from '../models/models.js'
-const { User, Chat } = models
+const { User, Chat, Dialog } = models
 import ApiError from '../error/ApiError.js'
 import jwt from 'jsonwebtoken'
+import { Op } from 'sequelize'
 import { where } from 'sequelize'
 
 function generateJwt(id, email) {
@@ -88,14 +89,15 @@ class UserController {
     try {
       const userId = req.user.id
 
-      const userWithChats = await User.findByPk(userId, {
-        include: {
-          model: Chat,
-          through: { attributes: [] },
+      // Найдем все диалоги, где userId либо creatorId, либо participantId
+      const dialogs = await Dialog.findAll({
+        where: {
+          type: 'dialog',
+          [Op.or]: [{ creatorId: userId }, { participantId: userId }],
         },
       })
 
-      return res.json(userWithChats)
+      return res.json(dialogs)
     } catch (e) {
       next(ApiError.internal('Чаты не найдены'))
     }

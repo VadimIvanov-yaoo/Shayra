@@ -77,6 +77,51 @@ const Message = sequelize.define('message', {
   },
 })
 
+const Dialog = sequelize.define(
+  'dialog',
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    type: {
+      type: DataTypes.ENUM('private', 'group', 'channel', 'dialog'),
+      allowNull: false,
+    },
+    avatarUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    creatorName: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    participantName: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+  },
+  {
+    tableName: 'dialog',
+  }
+)
+
+const DialogMember = sequelize.define('DialogMember', {
+  dialogId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Dialog,
+      key: 'id',
+    },
+    primaryKey: true,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    primaryKey: true,
+  },
+})
+
 const ChatAdmin = sequelize.define('ChatAdmin', {
   chatId: {
     type: DataTypes.INTEGER,
@@ -95,13 +140,16 @@ const ChatAdmin = sequelize.define('ChatAdmin', {
     primaryKey: true,
   },
 })
+
 User.belongsToMany(Chat, {
   through: ChatMember,
+  as: 'MemberChats',
   foreignKey: 'userId',
   otherKey: 'chatId',
 })
 Chat.belongsToMany(User, {
   through: ChatMember,
+  as: 'Members',
   foreignKey: 'chatId',
   otherKey: 'userId',
 })
@@ -118,13 +166,29 @@ Chat.belongsToMany(User, {
   foreignKey: 'chatId',
   otherKey: 'userId',
 })
-User.hasMany(Message, { foreignKey: 'senderId', onDelete: 'CASCADE' })
-Message.belongsTo(User, { foreignKey: 'senderId' })
 
+// Сообщения в Chat
 Chat.hasMany(Message, { foreignKey: 'chatId', onDelete: 'CASCADE' })
 Message.belongsTo(Chat, { foreignKey: 'chatId' })
 
+// Ассоциации для Dialog — creator и participant (1-на-1)
+Dialog.belongsTo(User, { as: 'creator', foreignKey: 'creatorId' })
+User.hasMany(Dialog, { as: 'createdDialogs', foreignKey: 'creatorId' })
+
+Dialog.belongsTo(User, { as: 'participant', foreignKey: 'participantId' })
+User.hasMany(Dialog, { as: 'participatedDialogs', foreignKey: 'participantId' })
+
+// Сообщения в Dialog
+Dialog.hasMany(Message, { foreignKey: 'dialogId', onDelete: 'CASCADE' })
+Message.belongsTo(Dialog, { foreignKey: 'dialogId' })
+
+// Сообщения, отправленные пользователем (общее для Chat и Dialog)
+User.hasMany(Message, { foreignKey: 'senderId', onDelete: 'CASCADE' })
+Message.belongsTo(User, { foreignKey: 'senderId' })
+
 const models = {
+  DialogMember,
+  Dialog,
   User,
   Chat,
   ChatMember,
