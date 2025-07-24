@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt'
 import models from '../models/models.js'
-const { User } = models
+const { User, Chat, Dialog } = models
 import ApiError from '../error/ApiError.js'
 import jwt from 'jsonwebtoken'
+import { Op } from 'sequelize'
 import { where } from 'sequelize'
 
 function generateJwt(id, email) {
@@ -81,6 +82,38 @@ class UserController {
       return res.json(user)
     } catch (e) {
       next(ApiError.internal('Ошибка обновления профиля'))
+    }
+  }
+
+  async getChats(req, res, next) {
+    try {
+      const userId = req.user.id
+
+      // Найдем все диалоги, где userId либо creatorId, либо participantId
+      const dialogs = await Dialog.findAll({
+        where: {
+          type: 'dialog',
+          [Op.or]: [{ creatorId: userId }, { participantId: userId }],
+        },
+      })
+
+      return res.json(dialogs)
+    } catch (e) {
+      next(ApiError.internal('Чаты не найдены'))
+    }
+  }
+
+  async checkOnline(req, res, next) {
+    try {
+      const { status } = req.body
+      const userId = req.user.id
+      const user = await User.findByPk(userId)
+
+      user.status = status
+      await user.save()
+      return res.json(user)
+    } catch (e) {
+      next(ApiError.internal('Ошибка обновления статуса'))
     }
   }
 }
