@@ -8,7 +8,7 @@ const Message = ({ type, message }) => {
   const isType = type === 'inputMessage'
   let isRead = true
   return (
-    <div className={styles[type]}>
+    <div className={styles.message}>
       <Container>
         <Flex alignCenter style={{ gap: '10px' }}>
           <div className={styles.messageText}>{message}</div>

@@ -4,21 +4,22 @@ import styles from './Sidebar.module.scss'
 import Form from 'react-bootstrap/Form'
 import ChatItem from '../ChatItem/ChatItem.jsx'
 import UserBar from '../UserBar/UserBar'
-import { createChat, getMessage, searchUser } from '../../../http/userApi'
+import { searchUser } from '../../../http/userApi'
 import { Context } from '../../../main'
 import { observer } from 'mobx-react'
 import UserCard from '../userCard/userCard'
-import { set } from 'mobx'
-import message from '../Message/Message'
+import { useCreateChat } from '../../../hooks/sideBarHooks/sideBarHooks'
 
 const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
   const { chat, user, message } = useContext(Context)
+
   const [userSearch, setUserSearch] = useState('')
   const [foundUser, setFoundUser] = useState(null)
   const [mate, setMate] = useState('')
   const [focus, setFocus] = useState(false)
   const userId2Ref = useRef(null)
-  const [oldMessage, setOldMessage] = useState([])
+
+  const createNewChat = useCreateChat()
 
   useEffect(() => {
     chat.loadChats()
@@ -49,16 +50,6 @@ const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
     }
   }
 
-  async function createNewChat() {
-    try {
-      const dialog = await createChat(user.user.id, userId2Ref.current)
-      console.log('Чат создан:', dialog)
-      chat.chats.push(dialog)
-    } catch (error) {
-      console.error('Ошибка создании чата', error)
-    }
-  }
-
   return (
     <section className={styles.sidebar}>
       <Container>
@@ -82,7 +73,10 @@ const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
               <div className={styles.resultBox}>
                 <div className={styles.squareContent}>
                   {foundUser ? (
-                    <UserCard create={createNewChat} mateName={mate} />
+                    <UserCard
+                      create={() => createNewChat(userId2Ref.current)}
+                      mateName={mate}
+                    />
                   ) : (
                     <center>Ничего не найдено</center>
                   )}

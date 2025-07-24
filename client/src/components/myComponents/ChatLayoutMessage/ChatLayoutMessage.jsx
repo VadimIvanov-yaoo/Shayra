@@ -5,6 +5,7 @@ import { Text, Container, Flex } from '../../UI/uiKit/uiKits'
 import styles from './ChatLayoutMessage.module.scss'
 import { Context } from '../../../main'
 import { observer } from 'mobx-react'
+import Message from '../Message/Message'
 
 const ChatLayoutMessage = observer(() => {
   const { message, user, chat } = useContext(Context)
@@ -23,15 +24,18 @@ const ChatLayoutMessage = observer(() => {
     <div className={styles.chat}>
       <Container>
         <div className={styles.chatsWrapper}>
-          {message.messages.map((msg) => (
-            <div key={msg.id}>
-              <b>{msg.senderId === user.user.id ? 'Вы' : 'Собеседник'}:</b>{' '}
-              {msg.text}
-            </div>
-          ))}
+          {message.messages.map((item, index) => {
+            const isOwnMessage = item.senderId === user.user.id
+            const messageClass = isOwnMessage ? styles.green : styles.red
 
-          <div className={styles.red}></div>
-          <div className={styles.green}></div>
+            return (
+              <div className={styles.messageWrapper}>
+                <div key={index} className={messageClass}>
+                  <Message message={item.text} />
+                </div>
+              </div>
+            )
+          })}
         </div>
       </Container>
     </div>
