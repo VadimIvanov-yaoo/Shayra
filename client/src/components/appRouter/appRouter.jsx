@@ -10,7 +10,6 @@ const AppRouter = observer(() => {
   const isAuth = false
   const { user } = useContext(Context)
 
-  console.log(user.isAuth)
   return (
     <Routes>
       {user.isAuth
@@ -20,7 +19,6 @@ const AppRouter = observer(() => {
         : publicRouts.map(({ path, Component }) => (
             <Route key={path} path={path} element={<Component />} />
           ))}
-      {/* Редирект по умолчанию */}
       <Route
         path="*"
         element={

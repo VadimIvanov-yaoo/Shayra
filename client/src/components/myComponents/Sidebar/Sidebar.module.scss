@@ -1,4 +1,5 @@
 .sidebar {
+  flex-shrink: 0;
   height: 100vh;
   width: 100%;
   max-width: 350px;
@@ -6,19 +7,33 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
+.resultBox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  animation: fadeIn 0.2s ease;
 }
 
-@media (min-width: 769px) {
-  .sidebar {
-    width: 350px;
-  }
+.squareContent {
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-
-
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 

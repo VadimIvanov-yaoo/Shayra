@@ -23,7 +23,7 @@ const User = sequelize.define('user', {
 const Chat = sequelize.define('chat', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   type: {
-    type: DataTypes.ENUM('private', 'group', 'channel'),
+    type: DataTypes.ENUM('private', 'group', 'channel', 'dialog'),
     allowNull: false,
   },
   name: {
@@ -60,7 +60,7 @@ const Message = sequelize.define('message', {
   timestamp: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   senderId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: User,
       key: 'id',
@@ -69,11 +69,66 @@ const Message = sequelize.define('message', {
 
   chatId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: Chat,
       key: 'id',
     },
+  },
+
+  dialogId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'dialog',
+      key: 'id',
+    },
+  },
+})
+
+const Dialog = sequelize.define(
+  'dialog',
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    type: {
+      type: DataTypes.ENUM('private', 'group', 'channel', 'dialog'),
+      allowNull: false,
+    },
+    avatarUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    creatorName: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    participantName: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+  },
+  {
+    tableName: 'dialog',
+    freezeTableName: true,
+  }
+)
+
+const DialogMember = sequelize.define('DialogMember', {
+  dialogId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Dialog,
+      key: 'id',
+    },
+    primaryKey: true,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    primaryKey: true,
   },
 })
 
@@ -95,13 +150,16 @@ const ChatAdmin = sequelize.define('ChatAdmin', {
     primaryKey: true,
   },
 })
+
 User.belongsToMany(Chat, {
   through: ChatMember,
+  as: 'MemberChats',
   foreignKey: 'userId',
   otherKey: 'chatId',
 })
 Chat.belongsToMany(User, {
   through: ChatMember,
+  as: 'Members',
   foreignKey: 'chatId',
   otherKey: 'userId',
 })
@@ -118,13 +176,25 @@ Chat.belongsToMany(User, {
   foreignKey: 'chatId',
   otherKey: 'userId',
 })
-User.hasMany(Message, { foreignKey: 'senderId', onDelete: 'CASCADE' })
-Message.belongsTo(User, { foreignKey: 'senderId' })
 
 Chat.hasMany(Message, { foreignKey: 'chatId', onDelete: 'CASCADE' })
 Message.belongsTo(Chat, { foreignKey: 'chatId' })
 
+Dialog.belongsTo(User, { as: 'creator', foreignKey: 'creatorId' })
+User.hasMany(Dialog, { as: 'createdDialogs', foreignKey: 'creatorId' })
+
+Dialog.belongsTo(User, { as: 'participant', foreignKey: 'participantId' })
+User.hasMany(Dialog, { as: 'participatedDialogs', foreignKey: 'participantId' })
+
+Dialog.hasMany(Message, { foreignKey: 'dialogId', onDelete: 'CASCADE' })
+Message.belongsTo(Dialog, { foreignKey: 'dialogId' })
+
+User.hasMany(Message, { foreignKey: 'senderId', onDelete: 'CASCADE' })
+Message.belongsTo(User, { foreignKey: 'senderId' })
+
 const models = {
+  DialogMember,
+  Dialog,
   User,
   Chat,
   ChatMember,

@@ -43,7 +43,6 @@ const App = observer(() => {
   }, [])
 
   if (loading) {
-    // return <h5>Загрузка ...</h5>
     return (
       <PuffLoader
         size={260}

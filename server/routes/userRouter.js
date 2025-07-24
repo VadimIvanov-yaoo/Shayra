@@ -7,5 +7,7 @@ router.post('/registration', userController.registration)
 router.post('/login', userController.login)
 router.get('/auth', authMiddleware, userController.check)
 router.put('/profile', authMiddleware, userController.updateProfile)
+router.get('/getChats', authMiddleware, userController.getChats)
+router.put('/online', authMiddleware, userController.checkOnline)
 
 export default router
