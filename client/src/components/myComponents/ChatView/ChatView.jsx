@@ -10,7 +10,7 @@ const ChatView = ({ selectChat }) => {
     <div className={styles.chat}>
       <ChatHeader selectChat={selectChat} />
       <ChatLayoutMessage />
-      <ChatFooter />
+      <ChatFooter selectChat={selectChat} />
     </div>
   )
 }

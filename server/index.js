@@ -4,6 +4,7 @@ import express from 'express'
 import router from './routes/index.js'
 import sequelize from './db.js'
 import models from './models/models.js'
+const { Message } = models
 import cors from 'cors'
 import { createServer } from 'http'
 import errorHandler from './middleware/ErrorHandingMiddleware.js'
@@ -27,6 +28,19 @@ app.use(errorHandler)
 
 io.on('connection', (socket) => {
   console.log('a user connected')
+
+  socket.on('newMessage', async (data) => {
+    try {
+      const message = await Message.create({
+        text: data.text,
+        senderId: data.senderId,
+        dialogId: data.dialogId,
+      })
+      io.emit('messageCreated', message)
+    } catch (e) {
+      console.log('Ошибка при отправке сообщения', e)
+    }
+  })
 
   socket.on('disconnect', () => {
     console.log('user disconnected')
