@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './ChatItem.module.scss'
 import avatar from '../../../assets/images/avatar.webp'
+import { Context } from '../../../main'
 
 const ChatItem = ({ chatName, onClick }) => {
   return (

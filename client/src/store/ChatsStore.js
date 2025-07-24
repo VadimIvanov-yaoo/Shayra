@@ -4,7 +4,7 @@ import { getChats } from '../http/userApi'
 export default class ChatsStore {
   _chats = []
   _loading = false
-  currentChatId = null
+  selectedChatId = null
 
   constructor() {
     makeAutoObservable(this)
@@ -22,7 +22,7 @@ export default class ChatsStore {
   }
 
   setCurrentChat(id) {
-    this.currentChatId = id
+    this.selectedChatId = id
   }
 
   get chats() {
@@ -30,7 +30,7 @@ export default class ChatsStore {
   }
 
   get currentChat() {
-    return this._chats.find((chat) => chat.id === this.currentChatId) || null
+    return this.chats.find((c) => c.id === this.selectedChatId) || null
   }
 
   async loadChats() {

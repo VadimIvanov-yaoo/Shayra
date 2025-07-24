@@ -7,5 +7,6 @@ const router = Router()
 
 router.get('/search', authMiddleware, chatController.searchUser)
 router.post('/newChat', authMiddleware, chatController.createChat)
+router.get('/getMessage', authMiddleware, chatController.getMessage)
 
 export default router

@@ -60,7 +60,7 @@ const Message = sequelize.define('message', {
   timestamp: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   senderId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: User,
       key: 'id',
@@ -69,9 +69,18 @@ const Message = sequelize.define('message', {
 
   chatId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: Chat,
+      key: 'id',
+    },
+  },
+
+  dialogId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'dialog',
       key: 'id',
     },
   },
@@ -100,6 +109,7 @@ const Dialog = sequelize.define(
   },
   {
     tableName: 'dialog',
+    freezeTableName: true,
   }
 )
 
@@ -167,22 +177,18 @@ Chat.belongsToMany(User, {
   otherKey: 'userId',
 })
 
-// Сообщения в Chat
 Chat.hasMany(Message, { foreignKey: 'chatId', onDelete: 'CASCADE' })
 Message.belongsTo(Chat, { foreignKey: 'chatId' })
 
-// Ассоциации для Dialog — creator и participant (1-на-1)
 Dialog.belongsTo(User, { as: 'creator', foreignKey: 'creatorId' })
 User.hasMany(Dialog, { as: 'createdDialogs', foreignKey: 'creatorId' })
 
 Dialog.belongsTo(User, { as: 'participant', foreignKey: 'participantId' })
 User.hasMany(Dialog, { as: 'participatedDialogs', foreignKey: 'participantId' })
 
-// Сообщения в Dialog
 Dialog.hasMany(Message, { foreignKey: 'dialogId', onDelete: 'CASCADE' })
 Message.belongsTo(Dialog, { foreignKey: 'dialogId' })
 
-// Сообщения, отправленные пользователем (общее для Chat и Dialog)
 User.hasMany(Message, { foreignKey: 'senderId', onDelete: 'CASCADE' })
 Message.belongsTo(User, { foreignKey: 'senderId' })
 

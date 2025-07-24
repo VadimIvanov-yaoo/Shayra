@@ -4,24 +4,31 @@ import styles from './Sidebar.module.scss'
 import Form from 'react-bootstrap/Form'
 import ChatItem from '../ChatItem/ChatItem.jsx'
 import UserBar from '../UserBar/UserBar'
-import { createChat, searchUser } from '../../../http/userApi'
+import { createChat, getMessage, searchUser } from '../../../http/userApi'
 import { Context } from '../../../main'
 import { observer } from 'mobx-react'
 import UserCard from '../userCard/userCard'
 import { set } from 'mobx'
+import message from '../Message/Message'
 
 const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
-  const { chat } = useContext(Context)
-  const { user } = useContext(Context)
+  const { chat, user, message } = useContext(Context)
   const [userSearch, setUserSearch] = useState('')
   const [foundUser, setFoundUser] = useState(null)
   const [mate, setMate] = useState('')
   const [focus, setFocus] = useState(false)
   const userId2Ref = useRef(null)
+  const [oldMessage, setOldMessage] = useState([])
 
   useEffect(() => {
     chat.loadChats()
   }, [chat])
+
+  useEffect(() => {
+    if (chat.currentChat?.id) {
+      message.loadMessages(chat.currentChat.id)
+    }
+  }, [chat.currentChat?.id])
 
   async function handleUserSearch(e) {
     const value = e.target.value
