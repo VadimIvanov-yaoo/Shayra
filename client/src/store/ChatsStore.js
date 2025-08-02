@@ -37,7 +37,6 @@ export default class ChatsStore {
     this._loading = true
     try {
       const data = await getChats()
-      console.log('👉 Chats from API:', data)
       this.setChats(data)
     } catch (e) {
       console.error('Ошибка загрузки чатов', e)

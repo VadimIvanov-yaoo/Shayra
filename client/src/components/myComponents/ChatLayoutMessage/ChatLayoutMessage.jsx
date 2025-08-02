@@ -9,7 +9,6 @@ import Message from '../Message/Message'
 
 const ChatLayoutMessage = observer(() => {
   const { message, user, chat } = useContext(Context)
-
   useEffect(() => {
     socket.on('messageCreated', (msg) => {
       if (msg.dialogId === chat.currentChat.id) {
@@ -31,7 +30,7 @@ const ChatLayoutMessage = observer(() => {
             return (
               <div className={styles.messageWrapper}>
                 <div key={index} className={messageClass}>
-                  <Message message={item.text} />
+                  <Message chatMessage={item.text} date={item.timestamp} />
                 </div>
               </div>
             )
