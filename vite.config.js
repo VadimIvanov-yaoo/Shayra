@@ -6,6 +6,9 @@ export default defineConfig({
   root: path.resolve(__dirname, 'client'),
   plugins: [react()],
   server: {
+    host: true,
+    strictPort: true,
+    allowedHosts: 'all',
     historyApiFallback: true,
     watch: {
       usePolling: true,
