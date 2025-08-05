@@ -8,8 +8,7 @@ export default defineConfig({
   server: {
     host: true,
     strictPort: true,
-    allowedHosts: 'all',
-    historyApiFallback: true,
+    allowedHosts: ['localhost', '.trycloudflare.com'],
     watch: {
       usePolling: true,
     },
