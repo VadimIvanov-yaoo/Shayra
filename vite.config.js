@@ -15,7 +15,8 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        // target: 'http://localhost:5000',
+        target: 'https://shayra-backend.onrender.com',
         changeOrigin: true,
       },
     },

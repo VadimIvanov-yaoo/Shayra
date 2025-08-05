@@ -16,7 +16,12 @@ const app = express()
 const server = createServer(app)
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: [
+      'http://localhost:5173',
+      'https://shayra.vercel.app',
+      'https://shayra-vadimivanov-yaoos-projects.vercel.app',
+      'https://shayra-qxxv9vnoj-vadimivanov-yaoos-projects.vercel.app',
+    ],
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -25,7 +30,12 @@ const io = new Server(server, {
 // app.use(cors())
 app.use(
   cors({
-    origin: ['http://localhost:5173'],
+    origin: [
+      'http://localhost:5173',
+      'https://shayra.vercel.app',
+      'https://shayra-vadimivanov-yaoos-projects.vercel.app',
+      'https://shayra-qxxv9vnoj-vadimivanov-yaoos-projects.vercel.app',
+    ],
     credentials: true,
   })
 )
