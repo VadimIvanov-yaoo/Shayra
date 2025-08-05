@@ -10,7 +10,7 @@ import { createServer } from 'http'
 import errorHandler from './middleware/ErrorHandingMiddleware.js'
 import { Server } from 'socket.io'
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 10000
 const app = express()
 
 const server = createServer(app)
