@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import UserCard from '../userCard/userCard'
 import { useCreateChat } from '../../../hooks/sideBarHooks/sideBarHooks'
 
-const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
+const Sidebar = observer(({ selectChat, setSelectChat, onChatSelect }) => {
   const { chat, user, message } = useContext(Context)
 
   const [userSearch, setUserSearch] = useState('')
@@ -18,8 +18,11 @@ const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
   const [mate, setMate] = useState('')
   const [focus, setFocus] = useState(false)
   const userId2Ref = useRef(null)
-
+  const [widthBlock, setWidthBlock] = useState(365)
   const createNewChat = useCreateChat()
+
+  const MAX_WIDTH = 635
+  const MIN_WIDTH = 340
 
   useEffect(() => {
     chat.loadChats()
@@ -50,10 +53,29 @@ const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
     }
   }
 
+  function test(e) {
+    const startX = e.clientX
+    const startWidth = widthBlock
+
+    const handleMouseMove = (moveEvent) => {
+      const delta = moveEvent.clientX - startX
+      const newWidth = startWidth + delta
+      setWidthBlock(Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, newWidth)))
+    }
+
+    const handleMouseUp = () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
+  }
+
   return (
-    <section className={styles.sidebar}>
+    <section style={{ width: `${widthBlock}px` }} className={styles.sidebar}>
       <Container>
-        <Flex column style={{ width: '100%' }}>
+        <Flex column style={{ width: '100%', paddingRight: '20px' }}>
           <Flex style={{ width: '100%', gap: 20, margin: '15px' }} alignCenter>
             <UserBar />
 
@@ -61,7 +83,12 @@ const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
               type="text"
               placeholder="Search"
               value={userSearch}
-              style={{ maxWidth: 250, padding: '10px 20px' }}
+              style={{
+                borderRadius: '2rem',
+                maxWidth: '33rem',
+                minWidth: '1rem',
+                padding: '10px 20px',
+              }}
               onChange={handleUserSearch}
               onFocus={() => setFocus(true)}
               onBlur={() => setTimeout(() => setFocus(false), 150)}
@@ -91,20 +118,27 @@ const Sidebar = observer(({ setSelectChat, onChatSelect }) => {
               const chatName = isCreator
                 ? item.participantName
                 : item.creatorName
-
+              const isSelected = item.id === selectChat
               return (
                 <ChatItem
                   key={item.id}
+                  style={{
+                    background: isSelected ? 'rgba(51, 144, 236,1)' : '',
+                    color: isSelected ? 'white' : '',
+                  }}
                   chatName={chatName}
                   onClick={() => {
                     onChatSelect(item.id)
                     setSelectChat(item.id)
+                    toBottom()
                   }}
+                  isSelected={isSelected}
                 />
               )
             })}
         </Flex>
       </Container>
+      <div onMouseDown={test} className={styles.customScroll}></div>
     </section>
   )
 })

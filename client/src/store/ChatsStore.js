@@ -38,6 +38,7 @@ export default class ChatsStore {
     try {
       const data = await getChats()
       this.setChats(data)
+      console.log('data ', data)
     } catch (e) {
       console.error('Ошибка загрузки чатов', e)
     } finally {

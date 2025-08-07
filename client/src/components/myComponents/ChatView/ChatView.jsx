@@ -4,13 +4,16 @@ import ChatFooter from '../ChatFooter/ChatFooter'
 import styles from './ChatView.module.scss'
 import Message from '../Message/Message'
 import ChatLayoutMessage from '../ChatLayoutMessage/ChatLayoutMessage'
+import { Container } from 'react-bootstrap'
 
-const ChatView = ({ selectChat }) => {
+const ChatView = ({ scrollToBottom, selectChat }) => {
   return (
     <div className={styles.chat}>
       <ChatHeader selectChat={selectChat} />
-      <ChatLayoutMessage />
-      <ChatFooter selectChat={selectChat} />
+      <div className={styles.containere}>
+        <ChatLayoutMessage scrollToBottom={scrollToBottom} />
+        <ChatFooter selectChat={selectChat} />
+      </div>
     </div>
   )
 }

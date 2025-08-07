@@ -15,9 +15,9 @@ const ChatFooter = ({ selectChat }) => {
 
   function click(e) {
     e.preventDefault()
-    if (message) {
+    if (message && message.trim() !== '') {
       socket.emit('newMessage', {
-        text: message,
+        text: message.trim(),
         creatorName: currentChat.creatorName,
         participantName: currentChat.participantName,
         dialogId: currentChat.id,

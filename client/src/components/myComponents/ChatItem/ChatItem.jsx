@@ -5,12 +5,11 @@ import { Context } from '../../../main'
 import Message from '../Message/Message'
 import { observer } from 'mobx-react'
 
-const ChatItem = observer(({ chatName, onClick }) => {
+const ChatItem = observer(({ isSelected, style, chatName, onClick }) => {
   const { message, user } = useContext(Context)
-  console.log(user.user.id)
 
   return (
-    <div onClick={onClick} className={styles.chatItem}>
+    <div style={style} onClick={onClick} className={styles.chatItem}>
       <div className="d-flex align-items-center" style={{ gap: '15px' }}>
         <div className={styles.avatarWrapper}>
           <img className={styles.avatar} src={avatar} alt="avatar" />
@@ -22,7 +21,11 @@ const ChatItem = observer(({ chatName, onClick }) => {
           <span className="text-muted" style={{ fontSize: '14px' }}>
             {message.messages.length > 0 && (
               <>
-                <div>
+                <div
+                  style={{
+                    color: isSelected ? 'white' : '',
+                  }}
+                >
                   {user.user.id ===
                   message.messages[message.messages.length - 1].senderId
                     ? 'Вы: ' +
