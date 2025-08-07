@@ -1,5 +1,14 @@
 .chat {
   flex-grow: 1;
   min-width: 0;
-  overflow: hidden;
 }
+
+.containere {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 9%);
+  align-items: center;
+}
+
+
