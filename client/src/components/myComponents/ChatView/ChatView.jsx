@@ -6,11 +6,11 @@ import Message from '../Message/Message'
 import ChatLayoutMessage from '../ChatLayoutMessage/ChatLayoutMessage'
 import { Container } from 'react-bootstrap'
 
-const ChatView = ({ scrollToBottom, selectChat }) => {
+const ChatView = ({ setIsVisible, scrollToBottom, selectChat }) => {
   return (
     <div className={styles.chat}>
-      <ChatHeader selectChat={selectChat} />
-      <div className={styles.containere}>
+      <ChatHeader setIsVisible={setIsVisible} selectChat={selectChat} />
+      <div className={styles.chatWrapper}>
         <ChatLayoutMessage scrollToBottom={scrollToBottom} />
         <ChatFooter selectChat={selectChat} />
       </div>
