@@ -84,12 +84,34 @@
   color: #1c7ed6;
 }
 
-
 .section {
   height: 100vh;
+  flex-shrink: 0;
   background-size: initial ;
+  //background: linear-gradient(135deg, #fbfbfa, #f9fafc);
+  //background: linear-gradient(135deg, #fefefe, #fdfeff);
+
+  background: #2A7B9B;
+  background: linear-gradient(90deg,
+          rgba(42, 123, 155, 0.16) 0%,
+          rgba(47, 131, 153, 0.17) 5%,
+          rgba(50, 136, 152, 0.16) 8%,
+          rgba(54, 143, 150, 0.16) 13%,
+          rgba(56, 147, 149, 0.17) 15%,
+          rgba(67, 166, 143, 0.15) 28%,
+          rgba(72, 174, 141, 0.14) 33%,
+          rgba(87, 199, 133, 0.16) 50%,
+          rgba(121, 204, 122, 0.17) 61%,
+          rgba(158, 210, 109, 0.16) 73%,
+          rgba(167, 211, 106, 0.19) 77%,
+          rgba(182, 213, 101, 0.15) 81%,
+          rgba(201, 216, 95, 0.16) 88%,
+          rgba(214, 218, 91, 0.16) 92%,
+          rgba(229, 220, 86, 0.14) 95%,
+          rgba(237, 221, 83, 0.19) 100%
+  );
   //background: linear-gradient(135deg, #f5f7fa, #e4e7eb, #d2d6db, #c5cad1);
-  background: linear-gradient(135deg, #fbfcfd, #f6f8fa, #eff2f5, #eaeef2);
+  //background: linear-gradient(135deg, #fbfcfd, #f6f8fa, #eff2f5, #eaeef2);
 
 }
 

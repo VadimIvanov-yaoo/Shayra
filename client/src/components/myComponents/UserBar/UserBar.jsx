@@ -39,6 +39,7 @@ const ProfileDropdown = observer(() => {
     user.setUser({})
     user.setIsAuth(false)
     navigator('/login')
+    window.location.reload()
   }
 
   async function loadUserProfile() {
