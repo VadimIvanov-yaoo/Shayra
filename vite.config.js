@@ -26,4 +26,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'client/src'),
     },
   },
+  optimizeDeps: {
+    include: ['react-joyride'],
+  },
 })
