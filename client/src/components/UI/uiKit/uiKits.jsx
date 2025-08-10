@@ -86,14 +86,5 @@ export const Text = ({ style, children, as = 'span', className, ...props }) => {
 }
 
 export const Section = ({ url, children, ...props }) => {
-  return (
-    <section
-      // style={{ backgroundImage: `url(${url})` }}
-      // style={{ backgroundImage: `url(${url})` }}
-      className={clsx(styles.section)}
-    >
-      {' '}
-      {children}
-    </section>
-  )
+  return <section className={clsx(styles.section)}> {children}</section>
 }

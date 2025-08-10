@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import bg from '../../assets/images/bg.webp'
 import { Container, Flex, Section } from '../../components/UI/uiKit/uiKits.jsx'
 import Sidebar from '../../components/myComponents/Sidebar/Sidebar.jsx'
 import ChatView from '../../components/myComponents/ChatView/ChatView.jsx'
@@ -11,8 +10,6 @@ const ChatLayout = observer(() => {
   const [selectChat, setSelectChat] = useState(null)
   const [isVisible, setIsVisible] = useState(false)
   const scrollToBottom = useRef(null)
-  const [count, setCount] = useState(false)
-  let timerId
 
   const handleChatSelect = (chatId) => {
     chat.setCurrentChat(chatId)
@@ -36,7 +33,7 @@ const ChatLayout = observer(() => {
   }
 
   return (
-    <Section url={bg} className="section">
+    <Section className="section">
       <Container style={{ height: '100%' }}>
         <Flex style={{ height: '100%' }}>
           <Sidebar
@@ -45,7 +42,11 @@ const ChatLayout = observer(() => {
             selectChat={selectChat}
           />
           {isVisible && (
-            <ChatView scrollToBottom={scrollToBottom} selectChat={selectChat} />
+            <ChatView
+              setIsVisible={setIsVisible}
+              scrollToBottom={scrollToBottom}
+              selectChat={selectChat}
+            />
           )}
         </Flex>
       </Container>

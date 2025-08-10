@@ -18,3 +18,16 @@
 .redClass {
   color: red;
 }
+
+.backBtn{
+  opacity: 80%;
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.backBtn:hover{
+  background: rgba(211, 211, 211,0.2);
+
+}
+

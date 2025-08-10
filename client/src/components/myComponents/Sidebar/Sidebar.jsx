@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import Input, { Container, Flex } from '../../UI/uiKit/uiKits.jsx'
 import styles from './Sidebar.module.scss'
 import Form from 'react-bootstrap/Form'
@@ -9,10 +9,13 @@ import { Context } from '../../../main'
 import { observer } from 'mobx-react'
 import UserCard from '../userCard/userCard'
 import { useCreateChat } from '../../../hooks/sideBarHooks/sideBarHooks'
+import JoyribeComponent from '../../UI/JoyribeComponent/JoyribeComponent'
+import Cookies from 'js-cookie'
 
 const Sidebar = observer(({ selectChat, setSelectChat, onChatSelect }) => {
   const { chat, user, message } = useContext(Context)
-
+  const sidebarRef = useRef(null)
+  const [runTour, setRunTour] = useState(false)
   const [userSearch, setUserSearch] = useState('')
   const [foundUser, setFoundUser] = useState(null)
   const [mate, setMate] = useState('')
@@ -27,6 +30,24 @@ const Sidebar = observer(({ selectChat, setSelectChat, onChatSelect }) => {
   useEffect(() => {
     chat.loadChats()
   }, [chat])
+
+  useEffect(() => {
+    function showJoyribe() {
+      if (!sidebarRef.current) {
+        return
+      }
+      const visited = Cookies.get('visited')
+      if (sidebarRef.current && user.user?.userName) {
+        setRunTour(false)
+      } else {
+        setRunTour(true)
+      }
+    }
+
+    const timeoutId = setTimeout(showJoyribe, 400)
+
+    return () => clearTimeout(timeoutId)
+  }, [user.user?.userName])
 
   useEffect(() => {
     if (chat.currentChat?.id) {
@@ -53,7 +74,7 @@ const Sidebar = observer(({ selectChat, setSelectChat, onChatSelect }) => {
     }
   }
 
-  function test(e) {
+  function changeWidth(e) {
     const startX = e.clientX
     const startWidth = widthBlock
 
@@ -77,7 +98,9 @@ const Sidebar = observer(({ selectChat, setSelectChat, onChatSelect }) => {
       <Container>
         <Flex column style={{ width: '100%', paddingRight: '20px' }}>
           <Flex style={{ width: '100%', gap: 20, margin: '15px' }} alignCenter>
-            <UserBar />
+            <div ref={sidebarRef}>
+              <UserBar />
+            </div>
 
             <Form.Control
               type="text"
@@ -88,6 +111,7 @@ const Sidebar = observer(({ selectChat, setSelectChat, onChatSelect }) => {
                 maxWidth: '33rem',
                 minWidth: '1rem',
                 padding: '10px 20px',
+                marginRight: '5px',
               }}
               onChange={handleUserSearch}
               onFocus={() => setFocus(true)}
@@ -111,34 +135,39 @@ const Sidebar = observer(({ selectChat, setSelectChat, onChatSelect }) => {
               </div>
             )}
           </div>
-
           {user.user &&
-            chat.chats.map((item) => {
-              const isCreator = item.creatorName === user.user.userName
-              const chatName = isCreator
-                ? item.participantName
-                : item.creatorName
-              const isSelected = item.id === selectChat
-              return (
-                <ChatItem
-                  key={item.id}
-                  style={{
-                    background: isSelected ? 'rgba(51, 144, 236,1)' : '',
-                    color: isSelected ? 'white' : '',
-                  }}
-                  chatName={chatName}
-                  onClick={() => {
-                    onChatSelect(item.id)
-                    setSelectChat(item.id)
-                    toBottom()
-                  }}
-                  isSelected={isSelected}
-                />
-              )
-            })}
+            (chat.chats.length > 0 ? (
+              chat.chats.map((item) => {
+                const isCreator = item.creatorName === user.user.userName
+                const chatName = isCreator
+                  ? item.participantName
+                  : item.creatorName
+                const isSelected = item.id === selectChat
+                return (
+                  <ChatItem
+                    key={item.id}
+                    style={{
+                      background: isSelected ? 'rgba(51, 144, 236,1)' : '',
+                      color: isSelected ? 'white' : '',
+                    }}
+                    chatName={chatName}
+                    onClick={() => {
+                      onChatSelect(item.id)
+                      setSelectChat(item.id)
+                    }}
+                    isSelected={isSelected}
+                  />
+                )
+              })
+            ) : (
+              <center className={styles.notFoundChats}>
+                Здесь пока пусто :(
+              </center>
+            ))}
         </Flex>
+        <JoyribeComponent runTour={runTour} sidebarRef={sidebarRef} />
       </Container>
-      <div onMouseDown={test} className={styles.customScroll}></div>
+      <div onMouseDown={changeWidth} className={styles.customScroll}></div>
     </section>
   )
 })
