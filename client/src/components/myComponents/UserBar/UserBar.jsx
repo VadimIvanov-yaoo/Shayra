@@ -9,13 +9,14 @@ import { Button } from 'react-bootstrap'
 import AvatarUploader from '../../UI/AvatarUploader/AvatarUploader'
 import {
   check,
-  checkOnline,
+  // checkOnline,
   getChats,
   updateProfile,
 } from '../../../http/userApi'
 import { Context } from '../../../main'
 import { observer } from 'mobx-react'
 import { useNavigate } from 'react-router'
+import socket from '../../../Websoket/socket'
 
 const ProfileDropdown = observer(() => {
   const {
@@ -36,6 +37,7 @@ const ProfileDropdown = observer(() => {
 
   function logout() {
     localStorage.removeItem('token')
+    socket.disconnect()
     user.setUser({})
     user.setIsAuth(false)
     navigator('/login')
@@ -62,19 +64,19 @@ const ProfileDropdown = observer(() => {
     },
   ]
 
-  async function changeOnline() {
-    const status = 'online'
-    try {
-      const userStatus = await checkOnline({ status })
-      user.setUser(userStatus)
-    } catch (e) {
-      console.log('Ошибка при обновлении статуса:', e)
-      alert(e.response?.data?.message || 'Ошибка обновления статуса')
-    }
-  }
+  // async function changeOnline() {
+  //   const status = 'online'
+  //   try {
+  //     const userStatus = await checkOnline({ status })
+  //     user.setUser(userStatus)
+  //   } catch (e) {
+  //     console.log('Ошибка при обновлении статуса:', e)
+  //     alert(e.response?.data?.message || 'Ошибка обновления статуса')
+  //   }
+  // }
 
   useEffect(() => {
-    changeOnline()
+    // changeOnline()
     if (!user.user.userName) {
       loadUserProfile()
     }

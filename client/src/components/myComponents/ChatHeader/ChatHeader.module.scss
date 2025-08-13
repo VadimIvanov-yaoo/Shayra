@@ -1,3 +1,10 @@
+.userInfoWrapper{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+
 .chatAvatar{
   height: 46px;
   width: 46px;
@@ -6,17 +13,35 @@
 }
 
 .chatHeader{
-  padding: 15px 15px;
-  width: 100vw;
+  padding: 10px 15px;
   background: white;
 }
 
-.greenClass{
+.partnerInfo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.partnerName{
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.status{
+  font-size: 0.8rem;
+  margin-top: -3px;
+}
+
+.onlineClass{
+  @extend .status;
   color: green;
 }
 
-.redClass {
-  color: red;
+.offlineClass {
+  @extend .status;
+  color: gray;
 }
 
 .backBtn{
@@ -28,6 +53,5 @@
 
 .backBtn:hover{
   background: rgba(211, 211, 211,0.2);
-
 }
 

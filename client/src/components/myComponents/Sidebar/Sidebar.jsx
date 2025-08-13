@@ -105,6 +105,7 @@ const Sidebar = observer(({ selectChat, setSelectChat, onChatSelect }) => {
             <Form.Control
               type="text"
               placeholder="Search"
+              className={styles.searchInput}
               value={userSearch}
               style={{
                 borderRadius: '2rem',

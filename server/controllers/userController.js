@@ -33,7 +33,6 @@ class UserController {
   async login(req, res, next) {
     const { email, password } = req.body
     const user = await User.findOne({ where: { email } })
-    // console.log(user.password)
     if (!user) {
       return next(ApiError.badRequest('Пользователь не найден'))
     }
@@ -46,15 +45,10 @@ class UserController {
     return res.json({ token })
   }
 
-  // async check(req, res, next) {
-  //   const token = generateJwt(req.user.id, req.user.email)
-  //   return res.json({ token })
-  // }
-
   async check(req, res, next) {
     try {
       const user = await User.findByPk(req.user.id, {
-        attributes: ['id', 'email', 'userName', 'avatarUrl'],
+        attributes: ['id', 'email', 'userName', 'avatarUrl', 'status'],
       })
       if (!user) {
         return next(ApiError.badRequest('Пользователь не найден'))
@@ -77,43 +71,10 @@ class UserController {
 
       user.userName = userName
       user.avatarUrl = avatarUrl
-      // user.userName = userName
       await user.save()
       return res.json(user)
     } catch (e) {
       next(ApiError.internal('Ошибка обновления профиля'))
-    }
-  }
-
-  async getChats(req, res, next) {
-    try {
-      const userId = req.user.id
-
-      // Найдем все диалоги, где userId либо creatorId, либо participantId
-      const dialogs = await Dialog.findAll({
-        where: {
-          type: 'dialog',
-          [Op.or]: [{ creatorId: userId }, { participantId: userId }],
-        },
-      })
-
-      return res.json(dialogs)
-    } catch (e) {
-      next(ApiError.internal('Чаты не найдены'))
-    }
-  }
-
-  async checkOnline(req, res, next) {
-    try {
-      const { status } = req.body
-      const userId = req.user.id
-      const user = await User.findByPk(userId)
-
-      user.status = status
-      await user.save()
-      return res.json(user)
-    } catch (e) {
-      next(ApiError.internal('Ошибка обновления статуса'))
     }
   }
 }
