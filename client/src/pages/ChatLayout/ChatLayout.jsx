@@ -3,13 +3,28 @@ import { Container, Flex, Section } from '../../components/UI/uiKit/uiKits.jsx'
 import Sidebar from '../../components/myComponents/Sidebar/Sidebar.jsx'
 import ChatView from '../../components/myComponents/ChatView/ChatView.jsx'
 import { Context } from '../../main'
+import styles from './ChatLayout.module.scss'
 import { observer } from 'mobx-react'
+import socket from '../../Websoket/socket'
 
 const ChatLayout = observer(() => {
-  const { chat, message } = useContext(Context)
+  const { chat, message, user } = useContext(Context)
   const [selectChat, setSelectChat] = useState(null)
   const [isVisible, setIsVisible] = useState(false)
   const scrollToBottom = useRef(null)
+
+  useEffect(() => {
+    let userId = user.user.id
+    socket.emit('onlineUser', userId)
+    let changeStatusTimer = setInterval(() => {
+      socket.emit('onlineUser', userId)
+      console.log('update')
+    }, 10000)
+
+    return () => {
+      clearInterval(changeStatusTimer)
+    }
+  }, [user.user.id])
 
   const handleChatSelect = (chatId) => {
     chat.setCurrentChat(chatId)

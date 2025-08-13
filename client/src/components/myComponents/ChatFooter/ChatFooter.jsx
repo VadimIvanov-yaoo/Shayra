@@ -11,9 +11,7 @@ const ChatFooter = ({ selectChat }) => {
 
   if (!currentChat) return null
 
-  // console.log(user.user.id)
-
-  function click(e) {
+  function sendMessage(e) {
     e.preventDefault()
     if (message && message.trim() !== '') {
       socket.emit('newMessage', {
@@ -37,7 +35,7 @@ const ChatFooter = ({ selectChat }) => {
           placeholder="Введите сообщение..."
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button onClick={click} className={styles.sendBtn}>
+        <button onClick={sendMessage} className={styles.sendBtn}>
           <img src={send} alt="Send" />
         </button>
       </form>

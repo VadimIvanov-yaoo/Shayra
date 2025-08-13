@@ -6,10 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import UserStore from './store/UserStore'
 import ChatsStore from './store/ChatsStore'
 import MessageStore from './store/MessageStore'
+import PartnerStore from './store/PartnerStore'
 
 export const Context = createContext(null)
 
-console.log(import.meta.env.VITE_API_URL)
+// console.log(import.meta.env.VITE_API_URL)
 
 createRoot(document.getElementById('root')).render(
   <Context.Provider
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')).render(
       user: new UserStore(),
       chat: new ChatsStore(),
       message: new MessageStore(),
+      partner: new PartnerStore(),
     }}
   >
     <StrictMode>
