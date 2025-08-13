@@ -3,7 +3,7 @@ const { User, Chat, ChatMember, Dialog, DialogMember, Message } = models
 import ApiError from '../error/ApiError.js'
 import bcrypt from 'bcrypt'
 import sequelize from '../db.js'
-import { Model, Op } from 'sequelize'
+import { Model as Partner, Model, Op } from 'sequelize'
 
 class ChatController {
   async searchUser(req, res, next) {
@@ -19,7 +19,6 @@ class ChatController {
   async createChat(req, res, next) {
     try {
       const { userId1, userId2 } = req.body
-      console.log('Данные пришли:', userId1, userId2)
 
       if (!userId1 || !userId2) {
         return res.status(400).json({ message: 'Оба userId обязательны' })
@@ -69,6 +68,23 @@ class ChatController {
     }
   }
 
+  async getChats(req, res, next) {
+    try {
+      const userId = req.user.id
+
+      const dialogs = await Dialog.findAll({
+        where: {
+          type: 'dialog',
+          [Op.or]: [{ creatorId: userId }, { participantId: userId }],
+        },
+      })
+
+      return res.json(dialogs)
+    } catch (e) {
+      next(ApiError.internal('Чаты не найдены'))
+    }
+  }
+
   async getMessage(req, res, next) {
     try {
       const { dialogId } = req.query
@@ -76,6 +92,20 @@ class ChatController {
       return res.json(foundMessage)
     } catch (e) {
       next(ApiError.internal('Сообщения не найдены'))
+    }
+  }
+
+  async getPartnerInfo(req, res, next) {
+    try {
+      const { id } = req.query
+      const foundPartner = await User.findOne({
+        where: { id },
+        attributes: ['id', 'userName', 'avatarUrl', 'status'],
+      })
+      return res.json(foundPartner)
+    } catch (e) {
+      next(ApiError.internal('Данные собеседника не найдены'))
+      console.log(e)
     }
   }
 }

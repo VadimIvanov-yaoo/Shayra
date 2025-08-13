@@ -31,13 +31,8 @@ export const updateProfile = async (userName) => {
   return data
 }
 
-export const checkOnline = async (payload) => {
-  const { data } = await $authHost.put('api/user/online', payload)
-  return data
-}
-
 export const getChats = async () => {
-  const { data } = await $authHost.get('api/user/getChats')
+  const { data } = await $authHost.get('api/chat/getChats')
   return data
 }
 
@@ -60,5 +55,13 @@ export const getMessage = async (dialogId) => {
   const { data } = await $authHost.get('api/chat/getMessage', {
     params: { dialogId },
   })
+  return data
+}
+
+export const getPartnerInfo = async (id) => {
+  const { data } = await $authHost.get('api/chat/partner', {
+    params: { id },
+  })
+  console.log('Данные пришли ', id)
   return data
 }

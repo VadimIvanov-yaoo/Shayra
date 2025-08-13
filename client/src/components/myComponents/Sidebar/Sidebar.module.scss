@@ -11,6 +11,7 @@
 
 .resultBox {
   position: absolute;
+  margin-left: 20px;
   left: 0;
   right: 0;
   z-index: 999;
@@ -44,17 +45,30 @@
   transform: translate(-50%, -50%);
 }
 
-@media (min-width: 1000px) {
+@media (max-width: 500px) {
   .sidebar {
     flex-shrink: 0;
   }
 }
 
-@media (max-height: 500px) {
+@media (max-width: 350px) {
+  .searchInput{
+    width: 150px;
+  }
+
   .sidebar {
     display: none;
   }
 }
+
+@media (max-width: 200px) {
+  .searchInput{
+    width: 100px;
+  }
+}
+
+
+
 
 @keyframes fadeIn {
   from {
