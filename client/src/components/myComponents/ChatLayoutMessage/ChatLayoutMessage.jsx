@@ -6,7 +6,6 @@ import styles from './ChatLayoutMessage.module.scss'
 import { Context } from '../../../main'
 import { observer } from 'mobx-react'
 import Message from '../Message/Message'
-import ChatFooter from '../ChatFooter/ChatFooter'
 
 const ChatLayoutMessage = observer(({ scrollToBottom }) => {
   const { message, user, chat } = useContext(Context)

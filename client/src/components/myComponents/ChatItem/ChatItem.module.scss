@@ -20,6 +20,10 @@
   right: 8%;
   height: 12px;
 }
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
 
 
 .chatItem{
@@ -33,6 +37,17 @@
 
 .chatItem:hover{
   background: rgba(211, 211, 211,0.2);
+}
+
+@media (max-width: 500px) {
+  .userInfo {
+    display: none;
+  }
+  .chatItem{
+    width: 52.5%;
+    height: 100%;
+  }
+
 }
 
 
