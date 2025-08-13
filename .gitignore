@@ -25,3 +25,5 @@ env
 *.sln
 *.sw?
 .env
+client/.env
+server/.env
