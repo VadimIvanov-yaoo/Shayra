@@ -108,6 +108,27 @@ class ChatController {
       console.log(e)
     }
   }
+
+  async getLastedChatMessage(req, res, next) {
+    try {
+      let { chatIds } = req.body
+      if (!Array.isArray(chatIds)) {
+        chatIds = [chatIds]
+      }
+      const lastMessages = await Promise.all(
+        chatIds.map(async (chatId) => {
+          return await Message.findOne({
+            where: { dialogId: chatId },
+            order: [['timestamp', 'DESC']],
+          })
+        })
+      )
+      res.json(lastMessages)
+    } catch (e) {
+      next(ApiError.internal('Последние сообщения не найдены'))
+      console.error(e)
+    }
+  }
 }
 
 const chatController = new ChatController()

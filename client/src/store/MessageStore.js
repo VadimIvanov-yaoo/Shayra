@@ -24,7 +24,7 @@ export default class MessageStore {
     if (!dialogId) return
     try {
       const messages = await getMessage(dialogId)
-      console.log('сообщения получены', messages)
+      // console.log('сообщения получены', messages)
       this.setMessages(messages)
     } catch (e) {
       console.error('Ошибка при получении сообщений', e)

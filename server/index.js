@@ -42,7 +42,6 @@ app.use(express.json())
 app.use('/api', router)
 app.use(errorHandler)
 
-// Передаём io в модуль
 initSocket(io)
 
 const start = async () => {
