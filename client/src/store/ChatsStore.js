@@ -21,6 +21,10 @@ export default class ChatsStore {
     }
   }
 
+  setLastMessageChat(message) {
+    this._chats = message
+  }
+
   setCurrentChat(id) {
     this.selectedChatId = id
   }
@@ -38,7 +42,7 @@ export default class ChatsStore {
     try {
       const data = await getChats()
       this.setChats(data)
-      // console.log('data ', data)
+      console.log('data ', data)
     } catch (e) {
       console.error('Ошибка загрузки чатов', e)
     } finally {

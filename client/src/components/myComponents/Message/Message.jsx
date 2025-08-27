@@ -8,7 +8,6 @@ import { Context } from '../../../main'
 const Message = ({ type, chatMessage, date }) => {
   const { message } = useContext(Context)
 
-  const isType = type === 'inputMessage'
   let isRead = true
   const localDate = new Date(date).toLocaleString()
   let formatDate = localDate.substring(11, 17).toLocaleString()
@@ -20,13 +19,11 @@ const Message = ({ type, chatMessage, date }) => {
           <div className={styles.messageText}>{chatMessage}</div>
           <Flex alignCenter style={{ gap: '5px', padding: '20px 8px 3px 0px' }}>
             <Text className={styles.time}>{formatDate}</Text>
-            {isType && (
-              <img
-                className={styles.status}
-                src={isRead ? checkRead : check}
-                alt=""
-              />
-            )}
+            <img
+              className={styles.status}
+              src={isRead ? checkRead : check}
+              alt=""
+            />
           </Flex>
         </Flex>
       </Container>

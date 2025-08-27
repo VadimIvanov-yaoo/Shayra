@@ -65,3 +65,9 @@ export const getPartnerInfo = async (id) => {
   console.log('Данные пришли ', id)
   return data
 }
+
+export const getLastedMessage = async (chatIds) => {
+  const { data } = await $authHost.post('api/chat/lastedMessage', chatIds)
+  console.log('Данные пришли ', chatIds)
+  return data
+}

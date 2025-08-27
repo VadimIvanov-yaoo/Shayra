@@ -10,7 +10,6 @@ import socket from '../../../Websoket/socket'
 const ChatHeader = observer(({ setIsVisible, selectChat }) => {
   const { chat, user, partner } = useContext(Context)
   const currentChat = chat.chats.find((c) => c.id == selectChat)
-  console.log(currentChat.participantId)
   function closeChat() {
     setIsVisible(false)
   }
